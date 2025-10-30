@@ -1,0 +1,79 @@
+Question 16: How to Show this result based on the given details:
+
+True-answers=6
+Wrong -answers=0
+Total-questions=6
+
+ 
+
+q08-2.png
+
+ 
+
+Hint 1:- Use imageview and textview, containers for showing the image and text.
+
+Hint 2:- Add the logic for showing the result based on true, and false values out of total questions.
+Source Code
+import 'package:flutter/material.dart';
+
+class ResultScreen extends StatelessWidget {
+  final int trueAnswers;
+  final int wrongAnswers;
+  final int totalQuestions;
+
+  ResultScreen({
+    required this.trueAnswers,
+    required this.wrongAnswers,
+    required this.totalQuestions,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    // Determine result message and image
+    String resultText;
+    String resultImage;
+
+    if (trueAnswers == totalQuestions) {
+      resultText = "Excellent! You answered all $trueAnswers questions correctly.";
+      resultImage = 'assets/success.png'; // Replace with your success image
+    } else if (trueAnswers >= totalQuestions / 2) {
+      resultText = "Good! You got $trueAnswers out of $totalQuestions correct.";
+      resultImage = 'assets/good.png'; // Replace with your good job image
+    } else {
+      resultText = "You got $trueAnswers out of $totalQuestions correct. Keep trying!";
+      resultImage = 'assets/try_again.png'; // Replace with your try again image
+    }
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Quiz Result'),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset(
+              resultImage,
+              width: 200,
+              height: 200,
+            ),
+            SizedBox(height: 20),
+            Text(
+              resultText,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            SizedBox(height: 20),
+            Text(
+              'Correct: $trueAnswers   Wrong: $wrongAnswers   Total: $totalQuestions',
+              style: TextStyle(fontSize: 16),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
