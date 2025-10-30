@@ -1,0 +1,72 @@
+Show the start and end date in the date picker. But the end date should be 29 days ago from the start date. What will be your approach to getting this problem statement?
+
+
+Hint 1:- Use the date picker library for selecting the start and end date.
+
+Hint 2:- Add the logic which is end data should be 29 days ago from the start date.
+Source Code:
+import 'package:flutter/material.dart';
+import 'package:intl/intl.dart'; // For formatting dates
+
+class DatePickerExample extends StatefulWidget {
+  @override
+  _DatePickerExampleState createState() => _DatePickerExampleState();
+}
+
+class _DatePickerExampleState extends State<DatePickerExample> {
+  DateTime? startDate;
+  DateTime? endDate;
+
+  final DateFormat dateFormat = DateFormat('yyyy-MM-dd');
+
+  // Function to pick start date
+  Future<void> pickStartDate() async {
+    DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2000), 
+      lastDate: DateTime.now(),
+    );
+
+    if (picked != null) {
+      setState(() {
+        startDate = picked;
+        endDate = startDate!.subtract(Duration(days: 29)); // 29 days ago
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('Start and End Date Picker')),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          children: [
+            ElevatedButton(
+              onPressed: pickStartDate,
+              child: Text('Select Start Date'),
+            ),
+            SizedBox(height: 20),
+            Text(
+              startDate != null
+                  ? 'Start Date: ${dateFormat.format(startDate!)}'
+                  : 'Start Date: Not selected',
+              style: TextStyle(fontSize: 16),
+            ),
+            SizedBox(height: 10),
+            Text(
+              endDate != null
+                  ? 'End Date: ${dateFormat.format(endDate!)}'
+                  : 'End Date: Will be 29 days before Start Date',
+              style: TextStyle(fontSize: 16),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+
